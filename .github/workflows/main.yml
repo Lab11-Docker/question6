@@ -1,0 +1,23 @@
+name: Deploy Docker Container
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connect to server and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST_SERVER }}
+          username: ${{ secrets.HOST_USER_NAME }}
+          key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
+          script: |
+            docker pull amony550/lab9-web:latest
+            docker stop lab9-web || true
+            docker rm lab9-web || true
+            docker run -d -p 80:80 --name lab9-web amony550/lab9-web:latest
