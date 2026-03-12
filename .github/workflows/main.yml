@@ -21,3 +21,5 @@ jobs:
             docker stop lab9-web || true
             docker rm lab9-web || true
             docker run -d -p 80:80 --name lab9-web amony550/lab9-web:latest
+      - name: Debug
+        run: echo "${{ secrets.HOST_SERVER }}"
